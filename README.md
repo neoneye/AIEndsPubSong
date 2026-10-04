@@ -19,6 +19,7 @@ The video is a **Skynet UI**, red on black. Every meme arrives as an `INTERCEPTE
 | [`studio.html`](studio.html) | Live preview with audio and a scrubber (open it in a browser from the repo root) |
 | [`render.mjs`](render.mjs) | Renders frames in headless Chrome and encodes the MP4 with ffmpeg |
 | [`docs/superpowers/specs/`](docs/superpowers/specs/) | The design spec |
+| [`prompts/`](prompts/) | Every prompt given to Claude while making the video, verbatim |
 
 ## Rendering
 
