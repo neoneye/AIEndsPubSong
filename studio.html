@@ -2,40 +2,73 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>P(doom) studio</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Shantell+Sans:wght@800&display=block">
+<title>AI Ends Pub studio</title>
 <style>
-  html, body { margin: 0; background: #1b1820; color: #eee; font: 13px system-ui, sans-serif; }
+  @font-face { font-family: 'Orbitron'; src: url('assets/fonts/Orbitron.ttf') format('truetype'); font-weight: 400 900; }
+  @font-face { font-family: 'Share Tech Mono'; src: url('assets/fonts/ShareTechMono-Regular.ttf') format('truetype'); }
+  html, body { margin: 0; background: #0a0505; color: #ddd; font: 13px system-ui, sans-serif; }
   main { padding: 12px; display: grid; gap: 8px; }
-  #out { width: min(100%, 1280px); aspect-ratio: 16 / 9; height: auto; background: #F3EBDC; }
-  .p5Canvas { display: none !important; }
+  #out { width: min(100%, 1280px); aspect-ratio: 16 / 9; height: auto; background: #000; }
   .bar { display: flex; gap: 10px; align-items: center; max-width: 1280px; }
   #scrub { flex: 1; }
-  #tt { font-variant-numeric: tabular-nums; min-width: 190px; }
+  #tt { font-variant-numeric: tabular-nums; min-width: 150px; }
+  button { background: #222; color: #ddd; border: 1px solid #444; padding: 4px 10px; border-radius: 4px; }
 </style>
-<script src="node_modules/p5/lib/p5.min.js"></script>
-<script src="node_modules/p5.brush/dist/p5.brush.js"></script>
 </head>
 <body>
 <main>
   <canvas id="out" width="1920" height="1080"></canvas>
-  <div class="bar"><input id="scrub" type="range" min="0" max="156.6" step="0.0417" value="0"><span id="tt">loading…</span></div>
+  <div class="bar"><button id="play">play</button><input id="scrub" type="range" min="0" max="284.7" step="0.0333" value="0"><span id="tt">loading…</span></div>
+  <audio id="au" src="assets/music.m4a" preload="auto"></audio>
 </main>
 <script src="src/core.js"></script>
-<script src="src/clawd.js"></script>
-<script src="src/cast.js"></script>
-<script src="src/props.js"></script>
-<script src="src/lyrics.js"></script>
+<script src="src/timing.js"></script>
+<script src="src/catalog.js"></script>
+<script src="src/assets.js"></script>
+<script src="src/evidence.js"></script>
+<script src="src/hud.js"></script>
+<script src="src/subs.js"></script>
+<script src="src/robot.js"></script>
+<script src="src/fx.js"></script>
+<script>const SCENES = {};</script>
+<script src="src/scenes/intro.js"></script>
+<script src="src/scenes/sims.js"></script>
+<script src="src/scenes/chorus.js"></script>
+<script src="src/scenes/montage.js"></script>
+<script src="src/scenes/finale.js"></script>
 <script src="src/timeline.js"></script>
-<script>const CAST = {};  // guest characters shared between chapters (e.g. for the curtain call)</script>
-<script src="src/ch/c01_lab.js"></script>
-<script src="src/ch/c02_chorus1.js"></script>
-<script src="src/ch/c03_takeoff.js"></script>
-<script src="src/ch/c04_chorus2.js"></script>
-<script src="src/ch/c05_obsolete.js"></script>
-<script src="src/ch/c06_chorus3.js"></script>
-<script src="src/ch/c07_scale.js"></script>
-<script src="src/ch/c08_chorus4.js"></script>
-<script src="src/ch/c09_finale.js"></script>
+<script>
+(async () => {
+  const cv = document.getElementById('out');
+  await Promise.all([document.fonts.load('700 40px "Orbitron"'), document.fonts.load('900 40px "Orbitron"'), document.fonts.load('600 40px "Orbitron"'), document.fonts.load('20px "Share Tech Mono"')]);
+  await loadAssets();
+  initFrame(); initPost(cv);
+  window.drawAt = t => { const t0 = performance.now(); drawFrame(t); return performance.now() - t0; };
+  window.renderAt = (t, type = 'image/jpeg', q = .92) => { drawAt(t); return cv.toDataURL(type, q); };
+  window.renderSheet = (ts, cols = 3, w = 640) => {
+    const h = Math.round(w * 9 / 16), rows = Math.ceil(ts.length / cols), sh = document.createElement('canvas');
+    sh.width = cols * w; sh.height = rows * h; const sc = sh.getContext('2d'), ms = [];
+    ts.forEach((t, n) => {
+      ms.push(Math.round(drawAt(t)));
+      sc.drawImage(cv, (n % cols) * w, Math.floor(n / cols) * h, w, h);
+      sc.fillStyle = '#000a'; sc.fillRect((n % cols) * w, Math.floor(n / cols) * h, 84, 22);
+      sc.fillStyle = '#fff'; sc.font = '15px monospace'; sc.fillText(t.toFixed(2), (n % cols) * w + 6, Math.floor(n / cols) * h + 16);
+    });
+    return { url: sh.toDataURL('image/jpeg', .9), ms };
+  };
+  window.ready = true;
+
+  const params = new URLSearchParams(location.search);
+  if (!params.has('render')) {
+    const au = document.getElementById('au'), sc = document.getElementById('scrub'), tt = document.getElementById('tt');
+    let t = +(params.get('t') || 0);
+    const show = () => { const ms = drawAt(t); sc.value = t; tt.textContent = `${t.toFixed(2)} s  ${ms.toFixed(0)} ms`; };
+    sc.oninput = () => { t = +sc.value; au.currentTime = t; show(); };
+    document.getElementById('play').onclick = () => au.paused ? au.play() : au.pause();
+    const loop = () => { if (!au.paused) { t = au.currentTime; show(); } requestAnimationFrame(loop); };
+    au.currentTime = t; show(); loop();
+  }
+})().catch(e => { console.error(e); window.loadError = String(e); });
+</script>
 </body>
 </html>

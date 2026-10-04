@@ -1,17 +1,10 @@
 {
-  "name": "pdoomvideo",
+  "name": "ai-ends-pub-video",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "private": true,
+  "description": "Skynet-UI music video for the AI Ends Pub song",
+  "type": "module",
   "dependencies": {
-    "p5": "^2.3.3",
-    "p5.brush": "^2.2.3",
     "puppeteer-core": "^25.11.0"
   }
 }
