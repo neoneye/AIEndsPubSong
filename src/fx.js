@@ -19,7 +19,7 @@ const TRANSITIONS = {
     if (k < .5) { const s = 1 + easeIn(k * 2) * 3; ctx.globalAlpha = 1 - easeIn(k * 2) * .6; ctx.drawImage(A, W / 2 - W * s / 2, H / 2 - H * s / 2, W * s, H * s); }
     else { const s = 1 + (1 - easeOut((k - .5) * 2)) * .6; ctx.globalAlpha = easeOut((k - .5) * 2); ctx.drawImage(B, W / 2 - W * s / 2, H / 2 - H * s / 2, W * s, H * s); }
     ctx.globalAlpha = 1;
-    const f = 1 - Math.abs(k - .5) * 4; if (f > 0) { ctx.fillStyle = rgba('#ffffff', f * .8); ctx.fillRect(0, 0, W, H); }
+    const f = 1 - Math.abs(k - .5) * 4; if (f > 0) { ctx.fillStyle = rgba('#ff8a70', f * .45); ctx.fillRect(0, 0, W, H); }
   },
   // CRT tube collapse: A squashes to a line then a dot, B opens back out
   crt(ctx, A, B, k) {

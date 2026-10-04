@@ -4,6 +4,7 @@
 //   node render.mjs --clip=0:6 --fps=24 --out=out/test.mp4                      short clip with audio
 //   node render.mjs --frames=0:156.6 --workers=4                                full-res JPEG frames → out/frames (resumable)
 //   node render.mjs --encode [--out=out/ai_ends_pub.mp4]                         frames + song → MP4
+//   node render.mjs --thumbs                                                      three YouTube thumbnails → out/thumbnails
 //   node render.mjs --prep                                                        extract the T2 clip to JPEG frames (out/t2)
 //   node render.mjs --eval='JSON.stringify(stationState(0, 21.5))'                 evaluate an expression in the studio page
 import puppeteer from 'puppeteer-core';
@@ -55,7 +56,15 @@ const frameOf = async (page, t, type, q) => {
 };
 const times = s => String(s).split(',').map(Number);
 
-if (args.eval) {
+if (args.thumbs) {
+  const page = await openPage(); mkdirSync('out/thumbnails', { recursive: true });
+  for (const n of ['A', 'B', 'C']) {
+    const url = await page.evaluate(n => window.renderThumb(n), n), png = `out/thumbnails/thumbnail_${n}.png`;
+    writeFileSync(png, Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'));
+    await run('ffmpeg', ['-y', '-loglevel', 'error', '-i', png, '-vf', 'scale=1280:720:flags=lanczos', '-q:v', '2', png.replace('.png', '.jpg')]);
+    console.log(png.replace('.png', '.jpg'));
+  }
+} else if (args.eval) {
   const page = await openPage();
   console.log(await page.evaluate(String(args.eval)));
 } else if (args.sheet) {
