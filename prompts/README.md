@@ -12,3 +12,5 @@ Files 02 and 03 hold the answers to Claude's multiple-choice clarifying question
 | 4 | [04_casino_image.md](04_casino_image.md) | A new image for the chorus |
 | 5 | [05_go_ahead.md](05_go_ahead.md) | Approve the design; commit and push as you go |
 | 6 | [06_preserve_prompts.md](06_preserve_prompts.md) | Preserve the prompts |
+| 7 | [07_readme_youtube.md](07_readme_youtube.md) | Add thumbnail B and the YouTube link to the README |
+| 8 | [08_update_prompts.md](08_update_prompts.md) | Update the prompts |
