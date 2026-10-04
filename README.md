@@ -1,6 +1,10 @@
 # AI Ends Pub
 
-Source code for the music video for *AI Ends Pub*, a dystopian military march built from the best lines and memes posted over six months in the "AI Ends Pub" Discord, a server about AI safety.
+Source code for the [music video for *AI Ends Pub*](https://www.youtube.com/watch?v=N6nV323DbkI), a dystopian military march built from the best lines and memes posted over six months in the "AI Ends Pub" Discord, a server about AI safety.
+
+<a href="https://www.youtube.com/watch?v=N6nV323DbkI"><img width="640" alt="AI ENDS PUB in chrome letters above an intercepted transmission: a red reticle locked onto Elon Musk's post &quot;I've been having a lot of AI nightmares lately&quot;, with a pointing wireframe robot" src="docs/thumbnail.jpg" /></a>
+
+▶ **[Watch the video on YouTube](https://www.youtube.com/watch?v=N6nV323DbkI)**
 
 The video is a **Skynet UI**, red on black. Every meme arrives as an `INTERCEPTED TRANSMISSION`. A T-800 reticle scans the image and **locks onto the exact detail the lyric is about** (`MATCH FOUND`), the camera zooms in, and the locked box shows in full colour. Lines without a meme are acted out by rigged red wireframe endoskeletons. A P(DOOM) meter climbs through the song: it slams to 75.5% when the Humanity Casino's own P(DOOM) board is locked in chorus 2, and it reaches 99.9% before the screen asks you to **insert disk 2**.
 
